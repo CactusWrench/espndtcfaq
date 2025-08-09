@@ -3,8 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize the quiz
     initializeQuiz();
     
-    // Initialize visitor counter
-    initializeVisitorCounter();
     
     // Add event listeners to all choice buttons
     const choiceButtons = document.querySelectorAll('.choice-btn');
@@ -277,72 +275,6 @@ function printResult() {
     }
 }
 
-// Visitor Counter Functions
-async function initializeVisitorCounter() {
-    try {
-        // Use CountAPI.xyz for global visitor counter
-        const response = await fetch('https://api.countapi.xyz/hit/espndtcfaq/visits');
-        const data = await response.json();
-        
-        if (data.value) {
-            updateVisitorDisplay(data.value);
-        } else {
-            throw new Error('Invalid response from CountAPI');
-        }
-    } catch (error) {
-        console.warn('Failed to fetch global visitor count, falling back to localStorage:', error);
-        
-        // Fallback to localStorage if CountAPI fails
-        let visitCount = localStorage.getItem('espnDtcVisitCount');
-        
-        if (!visitCount) {
-            visitCount = 1;
-        } else {
-            visitCount = parseInt(visitCount) + 1;
-        }
-        
-        localStorage.setItem('espnDtcVisitCount', visitCount.toString());
-        updateVisitorDisplay(visitCount);
-    }
-}
-
-function updateVisitorDisplay(count) {
-    const visitorCountElement = document.getElementById('visitor-count');
-    if (visitorCountElement) {
-        // Add some animation to make it feel more dynamic
-        visitorCountElement.style.transform = 'scale(1.1)';
-        visitorCountElement.textContent = formatVisitorCount(count);
-        
-        // Reset scale after animation
-        setTimeout(() => {
-            visitorCountElement.style.transform = 'scale(1)';
-        }, 200);
-    }
-}
-
-function formatVisitorCount(count) {
-    // Add commas for large numbers
-    if (count >= 1000000) {
-        return (count / 1000000).toFixed(1) + 'M';
-    } else if (count >= 1000) {
-        return (count / 1000).toFixed(1) + 'K';
-    } else {
-        return count.toLocaleString();
-    }
-}
-
-// Function to get current visitor count (for potential analytics)
-async function getVisitorCount() {
-    try {
-        // Try to get current count from CountAPI (without incrementing)
-        const response = await fetch('https://api.countapi.xyz/get/espndtcfaq/visits');
-        const data = await response.json();
-        return data.value || parseInt(localStorage.getItem('espnDtcVisitCount') || '1');
-    } catch (error) {
-        // Fallback to localStorage
-        return parseInt(localStorage.getItem('espnDtcVisitCount') || '1');
-    }
-}
 
 // Expose functions globally for potential future use
 window.espnDtcFaq = {
@@ -350,6 +282,5 @@ window.espnDtcFaq = {
     getCurrentResult,
     shareResult,
     printResult,
-    showScreen,
-    getVisitorCount
+    showScreen
 };
