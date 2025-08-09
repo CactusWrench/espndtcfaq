@@ -278,23 +278,32 @@ function printResult() {
 }
 
 // Visitor Counter Functions
-function initializeVisitorCounter() {
-    // Get or initialize visit count from localStorage
-    let visitCount = localStorage.getItem('espnDtcVisitCount');
-    
-    if (!visitCount) {
-        // First time visitor
-        visitCount = 1;
-    } else {
-        // Returning visitor - increment count
-        visitCount = parseInt(visitCount) + 1;
+async function initializeVisitorCounter() {
+    try {
+        // Use CountAPI.xyz for global visitor counter
+        const response = await fetch('https://api.countapi.xyz/hit/espndtcfaq/visits');
+        const data = await response.json();
+        
+        if (data.value) {
+            updateVisitorDisplay(data.value);
+        } else {
+            throw new Error('Invalid response from CountAPI');
+        }
+    } catch (error) {
+        console.warn('Failed to fetch global visitor count, falling back to localStorage:', error);
+        
+        // Fallback to localStorage if CountAPI fails
+        let visitCount = localStorage.getItem('espnDtcVisitCount');
+        
+        if (!visitCount) {
+            visitCount = 1;
+        } else {
+            visitCount = parseInt(visitCount) + 1;
+        }
+        
+        localStorage.setItem('espnDtcVisitCount', visitCount.toString());
+        updateVisitorDisplay(visitCount);
     }
-    
-    // Store updated count
-    localStorage.setItem('espnDtcVisitCount', visitCount.toString());
-    
-    // Update the display
-    updateVisitorDisplay(visitCount);
 }
 
 function updateVisitorDisplay(count) {
@@ -323,8 +332,16 @@ function formatVisitorCount(count) {
 }
 
 // Function to get current visitor count (for potential analytics)
-function getVisitorCount() {
-    return parseInt(localStorage.getItem('espnDtcVisitCount') || '1');
+async function getVisitorCount() {
+    try {
+        // Try to get current count from CountAPI (without incrementing)
+        const response = await fetch('https://api.countapi.xyz/get/espndtcfaq/visits');
+        const data = await response.json();
+        return data.value || parseInt(localStorage.getItem('espnDtcVisitCount') || '1');
+    } catch (error) {
+        // Fallback to localStorage
+        return parseInt(localStorage.getItem('espnDtcVisitCount') || '1');
+    }
 }
 
 // Expose functions globally for potential future use
