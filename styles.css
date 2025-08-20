@@ -30,6 +30,81 @@ body {
     padding: 20px;
 }
 
+/* Breaking News Banner */
+.breaking-news {
+    background: linear-gradient(135deg, #ff0000, #cc0000);
+    color: var(--espn-white);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.3);
+    animation: pulse 2s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.breaking-news::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: rotate(45deg);
+    animation: shine 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+@keyframes shine {
+    0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    }
+    100% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
+}
+
+.breaking-label {
+    display: inline-block;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    animation: blink 1.5s ease-in-out infinite;
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.breaking-news p {
+    font-size: 1.15rem;
+    line-height: 1.5;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.breaking-news strong {
+    color: #ffff00;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
 /* Header */
 .header {
     text-align: center;
@@ -61,6 +136,34 @@ body {
     border-radius: 8px;
     font-weight: 500;
     margin-top: 20px;
+}
+
+/* WWE Library Section */
+.wwe-library-section {
+    background: var(--espn-white);
+    border-radius: 12px;
+    padding: 40px 30px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--espn-red);
+    margin-bottom: 30px;
+}
+
+.wwe-library-section h2 {
+    color: var(--espn-black);
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.library-content {
+    text-align: center;
+}
+
+.library-content p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--espn-gray);
+    margin-bottom: 15px;
 }
 
 /* Screen Management */
@@ -295,6 +398,32 @@ body {
         font-size: 1.1rem;
     }
     
+    .breaking-news {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .breaking-label {
+        font-size: 1rem;
+    }
+    
+    .breaking-news p {
+        font-size: 1rem;
+    }
+    
+    .wwe-library-section {
+        padding: 30px 20px;
+        margin-bottom: 25px;
+    }
+    
+    .wwe-library-section h2 {
+        font-size: 1.7rem;
+    }
+    
+    .library-content p {
+        font-size: 1rem;
+    }
+    
     .screen {
         padding: 30px 20px;
     }
@@ -343,6 +472,32 @@ body {
     
     .subtitle {
         font-size: 1rem;
+    }
+    
+    .breaking-news {
+        padding: 12px;
+        margin-bottom: 15px;
+    }
+    
+    .breaking-label {
+        font-size: 0.9rem;
+    }
+    
+    .breaking-news p {
+        font-size: 0.9rem;
+    }
+    
+    .wwe-library-section {
+        padding: 25px 15px;
+        margin-bottom: 20px;
+    }
+    
+    .wwe-library-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .library-content p {
+        font-size: 0.95rem;
     }
     
     .screen h2 {
